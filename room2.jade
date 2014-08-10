@@ -1,0 +1,685 @@
+!!! strict
+html(xmlns='http://www.w3.org/1999/xhtml', xml:lang='fr')
+head
+  base(href='/')
+    title Jouer - Les Loups Garous de Thiercelieux, le jeu en Ligne
+
+    meta(name='keywords', content='Loups Garous, Thiercelieux, jeux de société, jeu à rôles')
+    meta(http-equiv='Content-Type', content='text/html; charset=iso-8859-1')
+    meta(name='detectify-verification', content='061f30d053e28623bdf9f6621877294d')
+
+    link(rel='stylesheet', media='screen', type='text/css', title='Design', href='/designInteractions.css?65')
+    link(type='text/css', href='jquery/css/lg-theme/jquery-ui-1.8.20.custom.css?10', rel='Stylesheet')
+    link(href='/jquery/css/lg-theme/jquery-bubble-popup-v3.css?4', rel='stylesheet', type='text/css')
+    link(rel='stylesheet', media='screen', type='text/css', title='Design', href='design.css?226')
+    link(rel='icon', type='image/png', href='stuff/miniature1.png')
+
+    script(type='text/javascript', src='https://apis.google.com/js/plusone.js')
+      {lang: 'fr'}
+    script(type='text/javascript', src='stuff/jquery.js')
+    script(type='text/javascript', src='static/js/js.js?52')
+    script(type='text/javascript', src='jquery/js/jquery-1.7.2.min.js')
+    script(type='text/javascript', src='jquery/js/jquery-ui-1.8.20.custom.min.js?10')
+    script(type='text/javascript', src='/static/js/actions.js?277')
+    script(type='text/javascript', src='static/js/infobulle.js?1407707729')
+    script(src='https://maps.googleapis.com/maps/api/js?key=AIzaSyAeGm6Ab4zOIpuy0Rh_GRXOXNMLg8g9Di4&sensor=false', type='text/javascript')
+    script(type='text/javascript', src='/static/js/amis.js?50')
+    script(src='/jquery/js/jquery-bubble-popup-v3.min.js', type='text/javascript')
+    script(type='text/javascript')
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-22928092-1']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+  body(onload='preloadImages();')
+    #curseur.infobulle(style='visibility: hidden;')
+    #header
+      // <img src="stuff/la_peur.png" style="width: 104px;height: 50px;position: absolute;margin: 110px 0 0 350px;"> 
+      img(onclick='window.location=\'/\'', src='stuff/newheader.png?7', alt='Jeu des loups garous de thiercelieux en ligne', border='0', style='margin-top: 10px;')
+      .nbInscrit
+        b 660
+        | personnes en ligne sur 288 550 inscrits ---
+        b 4 129
+        | connectés depuis 24 heures ---
+        b 1 667 934
+        | parties ont déjà eu lieu
+      br
+      br
+      .googleButton
+        a.twitter-follow-button(href='https://twitter.com/LGenligne', data-show-count='false', data-lang='fr') Suivre @LGenligne
+        script
+          !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+        br
+        #fb-root
+        script
+          (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+          fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk'));
+        .fb-like(data-href='https://www.facebook.com/lgenligne', data-send='false', data-layout='button_count', data-width='450', data-show-faces='false', data-font='tahoma')
+        .g-plusone(data-size='medium', data-href='http://loups-garous-en-ligne.com')
+    #menu
+      ul
+        li#mini_news(style='background-color: #791A1A; cursor: pointer; border: 1px solid white;')
+          a#mini_news_content.maison0(style='color: white;') 39
+        a.maison3(href='room')
+          li(style='width: 147px;') JOUER
+        a.maison1(href='presentation')
+          li(style='width: 147px;') PRESENTATION
+        a.maison6(href='stats')
+          li(style='width: 147px;') CLASSEMENT
+        a.maison7(href='http://forum.loups-garous-en-ligne.com', target='_blank')
+          li(style='width: 147px;') FORUM
+        a.maison8(href='boutique', style='color: #E2E2E2;')
+          li(style='width: 147px; background-color: rgba(141, 141, 141, 0.55);') BOUTIQUE
+        li#parent_notifs_header(style='cursor: pointer;', onclick='window.location=\'/notifications\';')
+          a#notifs_header.maison0(style='color: white;')  
+      #maison1(style='background-image: url(\'stuff/maison-presentation.png\'); position: relative; width: 155px; height: 92px; top: -140px; left: 240px; visibility: hidden; z-index: auto;')
+      #maison3(style='background-image: url(\'stuff/maison-accueil.png\'); position: relative; width: 100px; height: 73px; top: -212px; left: 80px; visibility: hidden; z-index: auto;')
+      #maison4(style='background-image: url(\'stuff/maison-mon-compte.png\'); position: relative; width: 141px; height: 89px; top: -302px; left: 342px; visibility: hidden; z-index: auto;')
+      #maison6(style='background-image: url(\'stuff/maison-stats.png\'); position: relative; width: 84px; height: 126px; top: -427px; left: 450px; visibility: hidden; z-index: auto;')
+      #maison7(style='background-image: url(\'stuff/maison-forum.png\'); position: relative; width: 88px; height: 124px; top: -551px; left: 630px; visibility: hidden; z-index: auto;')
+      #maison8(style='background-image: url(\'stuff/maison-boutique.png\'); position: relative; width: 117px; height: 102px; top: -654px; left: 805px; visibility: hidden; z-index: auto;')
+      #right_main
+        a(href='/logout.php', style='position: absolute; margin-top: 1px; margin-left: 155px;')
+          img(src='stuff/logout.png', title='Se déconnecter')
+        #membre_info
+          span.player Jerska
+          table(cellpadding='0', cellspacing='0', width='100%')
+            tr
+              td(colspan='2', style='padding-bottom: 20px;')
+                b(style='font-size: 10px;') 79
+                | points
+            tr(style='background-color: #FFF;')
+              td(style='border-top: 1px solid #5F5F5F; border-left: 1px solid #5F5F5F;')
+                b(style='color: blue; cursor: help;', onmouseover='onmouseover', talent='Talent', en='en', parties='parties')
+                  b Fun
+                  | ');" onmouseout="cache();"
+                  | 1 137
+              td(style='border-top: 1px solid #5F5F5F; border-right: 1px solid #5F5F5F;')
+                b(style='color: #F70233; cursor: help;', onmouseover='onmouseover', talent='Talent', en='en', parties='parties')
+                  b
+                    | Sérieuses
+                    b
+                      | ');" onmouseout="cache();"
+                      | 1 200
+            tr(style='background-color: white; font-weight: bold; font-style: italic;')
+              td(colspan='2', style='border-bottom: 1px solid #5F5F5F; border-left: 1px solid #5F5F5F; border-right: 1px solid #5F5F5F;') Talent
+          div(style='margin-top: 15px;')
+            a(href='compte', style='text-decoration: none;')
+              input(type='submit', value='Mon compte', style='text-decoration: none; padding: 0 25px; width: 111px;')
+        br
+        #boxInbox(style='cursor: pointer; color: #292929;', onclick='window.location=\'/notifications\';')
+          img(src='stuff/mail.png', alt='mail')
+          #notifs_mp(style='font-size: 80%; text-decoration: none;')
+            b 0
+            | Messages Privés
+        #boxParrainage(style='cursor: pointer;', onclick='window.location=\'/parrainage\';')
+          img(src='stuff/garouzette.png', alt='mail')
+          div(style='color: #292929; font-size: 80%; text-decoration: none;') Parrainage
+        #boxHameaux(style='cursor: pointer;', onclick='window.location=\'/hameaux\';')
+          img(src='stuff/house.png', alt='hameau')
+          div(style='color: #292929; font-size: 80%; text-decoration: none;') Hameaux
+        #boxIRL(style='cursor: pointer;', onclick='window.location=\'/irl/calendrier\';')
+          img(src='stuff/calendrier.gif', alt='IRL')
+          div(style='color: #292929; font-size: 80%; text-decoration: none;') Rencontre In Real Life
+        br
+        #boxContactUs(style='cursor: pointer;', onclick='window.location=\'/support\';')
+          img(src='stuff/mail_modo.png', alt='mail')
+          div(style='color: white; font-size: 80%; text-decoration: none;') Contacter l'équipe
+        br
+        #boxRed
+          span.titre(style='font-size: 120%; color: white;') Top 10 Général
+          br
+          table(border='0')
+            tr
+              td(align='left')
+                span.player Gamstof
+                | :
+              td
+                | 38268
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player mack2
+                | :
+              td
+                | 23680
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player Sohalia
+                | :
+              td
+                | 20072
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player Vegeta
+                | :
+              td
+                | 19624
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player Milann
+                | :
+              td
+                | 19065
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player Darkngel
+                | :
+              td
+                | 17173
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player Analise3
+                | :
+              td
+                | 16235
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player Manouch
+                | :
+              td
+                | 16158
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player Shaoling
+                | :
+              td
+                | 15571
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player rominowolf
+                | :
+              td
+                | 14388
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+        br
+        #boxRed
+          span.titre(style='font-size: 120%; color: white;') Top 10 du mois
+          br
+          table(border='0')
+            tr
+              td(align='left')
+                span.player Inequation
+                | :
+              td
+                | 1559
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player Ghostdead
+                | :
+              td
+                | 1177
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player zazii
+                | :
+              td
+                | 1120
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player Miiiaou
+                | :
+              td
+                | 1094
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player Miilisty
+                | :
+              td
+                | 1033
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player effaceur
+                | :
+              td
+                | 871
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player Guiltycore
+                | :
+              td
+                | 825
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player Lunieuse
+                | :
+              td
+                | 758
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player Nougateen
+                | :
+              td
+                | 739
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(align='left')
+                span.player Groaw
+                | :
+              td
+                | 722
+                img(src='stuff/pts.png', border='0', alt='Thiercelieux')
+            tr
+              td(colspan='2')
+                a(href='/top10', style='font-size: 9px; color: white;') Voir les précédents Top 10
+        br
+      #main
+        script(type='text/javascript')
+          var matchParams = new Array();
+          matchParams['min'] = 6;
+          matchParams['max'] = 20;
+          matchParams['types'] = '0,1,2';
+          matchParams['white'] = 0;
+          matchParams['micro'] = 0;matchParams['noSound'] = true;
+        script(type='text/javascript', src='stuff/salle_de_jeu/tinyTips.js?69')
+        script(type='text/javascript', src='room2.js?1407707729')
+        script(type='text/javascript', src='jeu/assets/script/soundmanager2.js')
+        script(type='text/javascript')
+          soundManager.url = 'jeu/assets/swf/';
+          soundManager.debugMode = false;
+          console.log("Loading SoundManager...");
+          soundManager.onload = function () {
+          console.log("SoundManager is loaded !");
+          }
+          var premiumValue = true;
+        script
+          roomLang =
+            notFixed: "Non fixé"
+            onlyPremium: "Seuls les membres premium peuvent choisir cette option."
+            players: "joueurs"
+            play: "Jouer"
+            playNow: "<b style=\"font-size:25px\">JOUER</b><br /><b style=\"font-size:15px\">MAINTENANT</b>"
+            room: "Partie"
+            carnage: "Carnage"
+            fun: "Fun"
+            normale: "Normale"
+            serieuse: "Sérieuse"
+            loading: "Chargement..."
+            createGame: "Créer une partie"
+            notConnectedCreate: "Veuillez vous connecter pour créer une partie."
+            chooseGameName: "Choisissez un nom de partie"
+            myRoom: "Ma partie"
+            choosePlayerNb: "Définissez le nombre de joueurs"
+            chooseType: "Choisissez le type de la partie"
+            chooseOptions: "Sélectionnez des options si vous le souhaitez"
+            opMic: "Micro"
+            opSpts: "Sans points"
+            opMdj: "Meneur Réel"
+            opAnon: "Anonyme"
+            opSelec: "Sélective"
+            opPrive: "Privée"
+            password: "Mot de passe"
+            chooseDebate: "Définissez le temps de débat"
+            chooseTalent: "Définissez le classement talent minimum pour ce mode de jeu"
+            confirmCreate: "Créer la partie"
+            joinRoom: "Rejoindre une partie manuellement"
+            startTuto: "Pour lancer le tutoriel, <a target='_blank' href='jeu/externe/testTutoriel.php'>cliquez ici</a>"
+
+          $ ->
+            # Accordéon + Checkboxes
+            # Débug Design
+            ci = ->
+              clearInterval refresh_interval
+              return
+            # Pass Privée
+            # Slider (Nombre de joueurs)
+            # Slider (ELO Mini)
+            # Halloween
+            # Temps de Débat en Sérieuse
+            #Nombre de joueurs = 6 //TODO
+            animateArrow = ->
+              if arrowAtTop
+                $("#arrowNewPlayer").animate
+                  "margin-top": "-120px"
+                , 900
+                arrowAtTop = false
+              else
+                $("#arrowNewPlayer").animate
+                  "margin-top": "-135px"
+                , 900
+                arrowAtTop = true
+              return
+            displayHalloweenIsEnabled = (halloweenMinutesLeft, halloweenSecondsLeft) ->
+              $("#halloweenMinutesLeft").empty().append halloweenMinutesLeft
+              $("#halloweenSecondsLeft").empty().append halloweenSecondsLeft
+              $("#halloweenTextWrapper").fadeIn()
+              $("#label_halloween").show()
+              return
+            halloweenIsDisabled = ->
+              $("#halloweenTextWrapper").fadeOut()
+              $("#label_halloween").hide()
+              $("#check_halloween").attr "checked", false  if $("#check_halloween").prop("checked")
+              return
+            $("#accordion").accordion
+              autoHeight: false
+              active: 1
+
+            $("#options_partie").buttonset()
+            $("#type_partie").buttonset()
+            $("#temps_debat").buttonset()
+            actualiseRoom2()
+            roomEnCours()
+            $("#check_privee").click ->
+              if $(this).is(":checked")
+                $("#mot_de_passe_privee").removeAttr "style"
+              else
+                $("#mot_de_passe_privee").css "display", "none"
+              return
+
+            $("#slider_nombre_joueurs").slider
+              range: "min"
+              value: 12
+              min: 6
+              max: 50
+              slide: (event, ui) ->
+                $("#nombre_joueurs").val ui.value + " " + roomLang["players"]
+                return
+
+            $("#slider_nombre_joueurs").children("div").css "background", "#5E78B1"
+            $("#nombre_joueurs").val $("#slider_nombre_joueurs").slider("value") + " " + roomLang["players"]
+            if $("#slider_eloMini").length
+              $("#slider_eloMini").slider
+                range: "min"
+                value: 0
+                min: 0
+                max: 3000
+                step: 20
+                slide: (event, ui) ->
+                  $("#eloMini").val ui.value
+                  return
+
+              $("#slider_eloMini").children("div").css "background", "#5E78B1"
+              $("#eloMini").val roomLang["notFixed"]
+              $("#slider_eloMini").slider "option", "disabled", true
+            $("#check_reel").button "option", "disabled", true
+            $("#check_anonyme").button "option", "disabled", true
+            $("#check_selective").button "option", "disabled", true
+            $("#check_privee").button "option", "disabled", true
+            $("#slider_temps_debat").slider "option", "disabled", true
+            $(".label_radioDebat").css "color", "#969A9E"
+            $("#label_2").css "color", ""
+            $("#label_3").css "color", ""
+            $("#label_4").css "color", ""
+            $("#radio_5").button "option", "disabled", true
+            $("#label_5").attr("onmouseover", "montre('Seuls les membres premium peuvent choisir cette option.');").attr "onmouseout", "cache();"
+            $("#radio_6").button "option", "disabled", true
+            $("#label_6").attr("onmouseover", "montre('Seuls les membres premium peuvent choisir cette option.');").attr "onmouseout", "cache();"
+            $("#radio_7").button "option", "disabled", true
+            $("#label_7").attr("onmouseover", "montre('Seuls les membres premium peuvent choisir cette option.');").attr "onmouseout", "cache();"
+            $("#radio_8").button "option", "disabled", true
+            $("#label_8").attr("onmouseover", "montre('Seuls les membres premium peuvent choisir cette option.');").attr "onmouseout", "cache();"
+            $("#radio_9").button "option", "disabled", true
+            $("#label_9").attr("onmouseover", "montre('Seuls les membres premium peuvent choisir cette option.');").attr "onmouseout", "cache();"
+            $("#radio_10").button "option", "disabled", true
+            $("#label_10").attr("onmouseover", "montre('Seuls les membres premium peuvent choisir cette option.');").attr "onmouseout", "cache();"
+            $("#radio_11").button "option", "disabled", true
+            $("#label_11").attr("onmouseover", "montre('Seuls les membres premium peuvent choisir cette option.');").attr "onmouseout", "cache();"
+            $("#radio_12").button "option", "disabled", true
+            $("#label_12").attr("onmouseover", "montre('Seuls les membres premium peuvent choisir cette option.');").attr "onmouseout", "cache();"
+            $("#label_reel").attr "onmouseover", "montre('Seuls les membres premium peuvent choisir cette option.');"
+            $("#label_reel").attr "onmouseout", "cache();"
+            $("#label_anonyme").attr "onmouseover", "montre('Seuls les membres premium peuvent choisir cette option.');"
+            $("#label_anonyme").attr "onmouseout", "cache();"
+            $("#label_selective").attr "onmouseover", "montre('Seuls les membres premium peuvent choisir cette option.');"
+            $("#label_selective").attr "onmouseout", "cache();"
+            $("#label_privee").attr "onmouseover", "montre('Seuls les membres premium peuvent choisir cette option.');"
+            $("#label_privee").attr "onmouseout", "cache();"
+            $("#slider_eloMini").attr "onmouseover", "montre('Seuls les membres premium peuvent choisir cette option.');"
+            $("#slider_eloMini").attr "onmouseout", "cache();"
+            premiumValue = false
+            $("#label_2").hide()
+            $("#label_halloween").attr "onmouseover", "montre(\\'Selectionnable seulement toutes les heures pendant 15 minutes !');"
+            $("#label_halloween").attr "onmouseout", "cache();"
+            $(".label_salon").click ->
+              $(".label_radioDebat").show()
+              $("#label_2").hide()
+              $("#slider_nombre_joueurs").slider "option", "min", 6
+              $("#slider_nombre_joueurs").slider "option", "max", 50
+              return
+
+            $("#label_serieuse").click ->
+              $("#label_3").hide()
+              $("#label_4").click()
+              $("#slider_nombre_joueurs").slider "option", "max", 30
+              if premiumValue
+                $("#slider_eloMini").slider "option", "disabled", false
+                $("#eloMini").val $("#slider_eloMini").slider("value")
+              return
+
+            $("#label_fun").click ->
+              $("#label_3").click()
+              if premiumValue
+                $("#slider_eloMini").slider "option", "disabled", false
+                $("#eloMini").val $("#slider_eloMini").slider("value")
+              return
+
+            $("#label_normale").click ->
+              $("#label_4").click()
+              $("#slider_eloMini").slider "option", "disabled", true
+              $("#eloMini").val roomLang["notFixed"]
+              return
+
+            $("#label_speciale").click ->
+              $("#label_4").click()
+              $("#slider_eloMini").slider "option", "disabled", true
+              $("#eloMini").val roomLang["notFixed"]
+              return
+
+            $("#label_carnage").click ->
+              $(".label_radioDebat").hide()
+              $("#label_3").show()
+              $("#label_2").show().click()
+              $("#slider_nombre_joueurs").slider "option", "min", 6
+              $("#slider_nombre_joueurs").slider "option", "max", 6
+              $("#nombre_joueurs").val "6 " + roomLang["players"]
+              $("#slider_eloMini").slider "option", "disabled", true
+              $("#eloMini").val roomLang["notFixed"]
+              return
+
+            arrowAtTop = false
+            if $("#arrowNewPlayer").length
+              animateArrow()
+              setInterval animateArrow, 1000
+              $("#arrowNewPlayer").animate "margin-top": "-135px"
+            # Halloween Timer
+            setInterval (->
+              currentDate = new Date()
+              if currentDate.getMinutes() <= 15 and currentDate.getYear() is 113 and currentDate.getMonth() is 10 and currentDate.getDate() < 5
+                halloweenMinutesLeft = 14 - currentDate.getMinutes()
+                if halloweenMinutesLeft >= 0
+                  displayHalloweenIsEnabled halloweenMinutesLeft, 59 - currentDate.getSeconds()
+                else
+                  halloweenIsDisabled()
+              else
+                halloweenIsDisabled()
+              return
+            ), 1000
+            return
+
+          changeType 1
+        #salle_de_jeu
+          #halloweenTextWrapper(style='background-color: white; border: 1px solid black; margin: 5px 30px; display: none;')
+            img(src='stuff/halloween_scene.png', style='float: left; margin: 5px; text-align: left;')
+            #halloweenText(style='padding: 30px 20px 20px 20px;')
+              | La création de
+              b parties Halloween
+              | est temporairement disponible !
+              br
+              br
+              | Plus que
+              b#halloweenMinutesLeft(style='color: #660A0A; font-size: 1.1em;')
+              | minutes et
+              b#halloweenSecondsLeft(style='color: #660A0A; font-size: 1.1em;')
+              | secondes !
+            div(style='clear: both;')
+          table(width='100%', style='padding-top: 15px;')
+            tr
+              td(align='left', style='vertical-align: top;', width='200px')
+                div(style='font-size: 9px;')
+                  #matchBox(onclick='callMatchMaking(true)')
+                    img(src='stuff/salle_de_jeu/matchMaking.png', style='float: left;')
+                    b(style='font-size: 25px;') JOUER
+                    br
+                    b(style='font-size: 15px;') MAINTENANT
+                  i(style='font-size: 10px;')
+                    | Pour lancer le tutoriel,
+                    a(target='_blank', href='jeu/externe/testTutoriel.php') cliquez ici
+                  br
+                  br
+                  table
+                    tr
+                      td(align='center')
+                        img(src='stuff/salle_de_jeu/carnage.png?5', alt='Partie Carnage')
+                      td Partie Carnage
+                    tr
+                      td(align='center')
+                        img(src='stuff/salle_de_jeu/fun.png?5', alt='Partie Fun')
+                      td Partie Fun
+                    tr
+                      td(align='center')
+                        img(src='stuff/salle_de_jeu/normale.png?5', alt='Partie Normale')
+                      td Partie Normale
+                    tr
+                      td(align='center')
+                        img(src='stuff/salle_de_jeu/serieuse.png?5', alt='Partie Sérieuse')
+                      td Partie Sérieuse
+                br
+                #enCours(style='background-color: #E9E9E9;')
+                  | Chargement...
+              td(align='left', style='padding-left: 10px; vertical-align: top;')
+                #accordion
+                  h3
+                    a(href='#', onclick='click_on_create();') Créer une partie
+                  div(style='font-size: 13px; padding-top: 15px;')
+                    form#creation_de_partie(action='jeu/externe/create.php', method='post', target='_blank')
+                      table(align='center', style='width: 100%;')
+                        tr
+                          td.help_form_salle_de_jeu(align='center') 1. Choisissez un nom de partie
+                        tr(style='margin-bottom: 20px;')
+                          td(align='center', style='padding-bottom: 20px;')
+                            input#game_name(size='15', maxlength='15', type='text', name='tchatName', autocomplete='off', placeholder='Ma partie', style='text-align: center;')
+                        tr
+                          td.help_form_salle_de_jeu(align='center') 2. Définissez le nombre de joueurs
+                        tr
+                          td(align='center', style='padding-bottom: 20px;')
+                            input#nombre_joueurs(type='text', name='nbPersonMax', style='border: 0; color: #5D799C; font-weight: bold; text-align: center;')
+                            #slider_nombre_joueurs(style='margin-bottom: 20px;')
+                        tr
+                          td.help_form_salle_de_jeu(align='center') 3. Choisissez le type de la partie
+                        tr
+                          td(align='center', style='padding: 7px; padding-bottom: 20px;')
+                            #type_partie
+                              input#radio_carnage(type='radio', name='type', value='3')
+                              label#label_carnage.label_salon(for='radio_carnage') Carnage
+                              input#radio_fun(type='radio', name='type', value='1')
+                              label#label_fun.label_salon(for='radio_fun') Fun
+                              input#radio_normale(type='radio', name='type', value='0', checked='checked')
+                              label#label_normale.label_salon(for='radio_normale') Normale
+                              input#radio_serieuse(type='radio', name='type', value='2')
+                              label#label_serieuse.label_salon(for='radio_serieuse') Sérieuse
+                        tr
+                          td.help_form_salle_de_jeu(align='center') 4. Sélectionnez des options si vous le souhaitez
+                        tr
+                          td(align='center', style='padding: 7px; padding-bottom: 20px;')
+                            #options_partie
+                              input#check_micro(type='checkbox', name='micro', value='micro')
+                              label(for='check_micro') Micro
+                              input#check_white(type='checkbox', name='whiteFlag', value='whiteFlag')
+                              label(for='check_white') Sans points
+                              input#check_reel(type='checkbox', name='reel', value='reel')
+                              label#label_reel(for='check_reel') Meneur Réel
+                              input#check_anonyme(type='checkbox', name='anonyme', value='anonyme')
+                              label#label_anonyme(for='check_anonyme') Anonyme
+                              br
+                              input#check_selective(type='checkbox', name='selective', value='selective')
+                              label#label_selective(for='check_selective') Sélective
+                              input#check_privee(type='checkbox', name='privee', value='privee')
+                              label#label_privee(for='check_privee') Privée
+                              br
+                        tr#mot_de_passe_privee(style='display: none;')
+                          td(align='center')
+                            | Mot de passe :
+                            input(type='password', name='passePrivee', autocomplete='off', value='')
+                        tr
+                          td.help_form_salle_de_jeu(align='center') 5. Définissez le temps de débat
+                        tr
+                          td(align='center', style='padding: 7px; padding-bottom: 20px;')
+                            #temps_debat
+                              input#radio_2.radioDebat(type='radio', name='debat', value='2')
+                              label#label_2.label_radioDebat(for='radio_2') 2 min
+                              input#radio_3.radioDebat(type='radio', name='debat', value='3')
+                              label#label_3.label_radioDebat(for='radio_3') 3 min
+                              input#radio_4.radioDebat(type='radio', name='debat', value='4', checked='checked')
+                              label#label_4.label_radioDebat(for='radio_4') 4 min
+                              input#radio_5.radioDebat(type='radio', name='debat', value='5')
+                              label#label_5.label_radioDebat(for='radio_5') 5 min
+                              input#radio_6.radioDebat(type='radio', name='debat', value='6')
+                              label#label_6.label_radioDebat(for='radio_6') 6 min
+                              input#radio_7.radioDebat(type='radio', name='debat', value='7')
+                              label#label_7.label_radioDebat(for='radio_7') 7 min
+                              input#radio_8.radioDebat(type='radio', name='debat', value='8')
+                              label#label_8.label_radioDebat(for='radio_8') 8 min
+                              input#radio_9.radioDebat(type='radio', name='debat', value='9')
+                              label#label_9.label_radioDebat(for='radio_9') 9 min
+                              input#radio_10.radioDebat(type='radio', name='debat', value='10')
+                              label#label_10.label_radioDebat(for='radio_10') 10 min
+                              input#radio_11.radioDebat(type='radio', name='debat', value='11')
+                              label#label_11.label_radioDebat(for='radio_11') 11 min
+                              input#radio_12.radioDebat(type='radio', name='debat', value='12')
+                              label#label_12.label_radioDebat(for='radio_12') 12 min
+                        tr
+                          td.help_form_salle_de_jeu(align='center') 6. Définissez le classement talent minimum pour ce mode de jeu
+                        tr
+                          td(align='center')
+                            input#eloMini(type='text', name='eloMini', style='border: 0; color: #5D799C; font-weight: bold; text-align: center;')
+                            #slider_eloMini(style='margin-bottom: 20px;')
+                        tr
+                          td(align='center', style='margin-top: 15px;')
+                            input#bouton_creation(type='submit', value='Créer la partie', style='padding: 3px; width: 100%;')
+                  h3
+                    a(href='#', onclick='actualiseRoom2(true); return false;') Rejoindre une partie manuellement
+                  #salons_en_attente(style='padding-left: 3px; padding-right: 3px;', align='center')
+                    | Chargement...
+    #footer
+      #footer_colonne1
+        br
+        br
+        a(href='http://forum.loups-garous-en-ligne.com/viewtopic.php?f=23&t=5115', border='0')
+          img(src='stuff/equipe.png?2')
+        br
+        a(href='http://forum.loups-garous-en-ligne.com/viewtopic.php?f=23&t=5115', style='color: #E7E7E7; text-decoration: none;') Cliquez ici pour voir l'équipe du site !
+      #footer_colonne2
+        a(href='http://www.facebook.com/lgenligne', target='_blank', border='0')
+          img(src='stuff/facebook.png')
+        br
+        a(href='support', border='0')
+          img(src='stuff/contact.png')
+      #footer_centre
+        | Loups-garous-en-ligne.com a été agréé par les créateurs du jeu Loups-garous de Thiercelieux, messieurs Philippe des Pallières et Hervé Marly, ainsi que par les éditions Lui-même.
+        br
+        | Ce site bénéficie d'une licence d'exploitation des noms, images, contenus et concepts tirés du jeu. Toute utilisation dérivée pourra entraîner des poursuites judiciaires.
+
