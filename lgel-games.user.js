@@ -4,7 +4,7 @@
 // @description lgel
 // @include     *loups-garous-en-ligne.com/room
 // @include     *loups-garous-en-ligne.com/jeu/index.php*
-// @version     1.0.5
+// @version     1.0.6
 // @grant       none
 // ==/UserScript==
 
@@ -13,7 +13,6 @@ window.players = {};
 
 console.log('In user script');
 if ($.fn.tinyTips) {
-  console.log('In if');
   var colors = {
     'Fun': '00F',
     'Sérieuse': 'F00',
@@ -44,7 +43,6 @@ if ($.fn.tinyTips) {
       callback(res);
     });
   };
-  console.log('Before tips');
   $.fn.tinyTips = function (isList) {
     'use strict';
     var tipFrame = '<div class="tinyTip_salle_de_jeu"><div class="content"></div><div class="bottom">&nbsp;</div></div>',
@@ -55,7 +53,6 @@ if ($.fn.tinyTips) {
       var tipCont, _tipCont, form, type, players, matches, to_add, list, i, len, player, link_player, line, getLine, x_offset, y_offset, pos, npos;
       hovering = true;
       if(window.oldTipped === this || tinyTip_mouseover) {
-        console.log("Returning");
         return;
       }
       if (window.oldTipped) {
@@ -69,7 +66,6 @@ if ($.fn.tinyTips) {
       tinyTip.mouseout(function () {
         tinyTip_mouseover = false;
       }).mouseover(function () {
-        console.log("Entered");
         tinyTip_mouseover = true;
       });
       tinyTip.css('width', 'auto');
@@ -146,7 +142,7 @@ if ($.fn.tinyTips) {
         tinyTip.find('.content').html(tipCont);
       }
       self.attr('title', '');
-      y_offset = tinyTip.height() + 16;
+      y_offset = tinyTip.height() + 17;
       x_offset = -20;
       pos = $(this).offset();
       npos = pos;
@@ -167,7 +163,6 @@ if ($.fn.tinyTips) {
       var destroy = function () {
         if (window.oldTipped === self) {
           if ((tinyTip_mouseover === false) && (hovering === false)) {
-            console.log("mouseover", tinyTip_mouseover);
             $(self).attr('title', $('.tinyTip_salle_de_jeu .content').html());
             $('div.tinyTip_salle_de_jeu').remove();
             window.oldTipped = null;
@@ -218,9 +213,7 @@ if ($.fn.tinyTips) {
 if (window.IWannaPlay) {
   window.IWannaPlay.toString = Object.toString;
   var OldIWannaPlay = window.IWannaPlay.toString();
-  console.log('old', OldIWannaPlay);
   window.query = OldIWannaPlay.match(/[^\/][^\/][a-z0-9]{34}[^\)]*\)/)[0];
-  console.log('query', window.query);
   window.query = window.query.replace(/^[\s\S]*\(['"]/, '').replace(/['"]\)$/, '');
   console.log('query', window.query);
   window.IWannaPlay = function () {
