@@ -4,9 +4,10 @@
 // @description lgel
 // @include     *loups-garous-en-ligne.com/room
 // @include     *loups-garous-en-ligne.com/jeu/index.php*
-// @version     1.0.4
+// @version     1.0.5
 // @grant       none
 // ==/UserScript==
+
 window.oldTipped = null;
 window.players = {};
 
@@ -53,14 +54,24 @@ if ($.fn.tinyTips) {
       var self = $(this);
       var tipCont, _tipCont, form, type, players, matches, to_add, list, i, len, player, link_player, line, getLine, x_offset, y_offset, pos, npos;
       hovering = true;
+      if(window.oldTipped === this || tinyTip_mouseover) {
+        console.log("Returning");
+        return;
+      }
       if (window.oldTipped) {
-        window.oldTipped.attr("title", $('.tinyTip_salle_de_jeu .content').html());
+        $(window.oldTipped).attr("title", $('.tinyTip_salle_de_jeu .content').html());
         $('div.tinyTip_salle_de_jeu').remove();
       }
+      window.oldTipped = this;
       $('body').append(tipFrame);
-      console.log("isList", isList);
       tinyTip = $('div.tinyTip_salle_de_jeu');
       tinyTip.hide();
+      tinyTip.mouseout(function () {
+        tinyTip_mouseover = false;
+      }).mouseover(function () {
+        console.log("Entered");
+        tinyTip_mouseover = true;
+      });
       tinyTip.css('width', 'auto');
       tinyTip.css('background', 'white');
       tinyTip.css('border', '1px solid #777');
@@ -135,22 +146,15 @@ if ($.fn.tinyTips) {
         tinyTip.find('.content').html(tipCont);
       }
       self.attr('title', '');
-      y_offset = tinyTip.height() + 17;
+      y_offset = tinyTip.height() + 16;
       x_offset = -20;
       pos = $(this).offset();
       npos = pos;
       npos.top = pos.top - y_offset;
       npos.left = pos.left - x_offset;
-      window.oldTipped = self;
       tinyTip.css('position', 'absolute').css('z-index', '1000');
       tinyTip.css(npos).fadeIn(animSpeed);
       // Tests
-      $('div.tinyTip_salle_de_jeu').unbind('mouseout');
-      $('div.tinyTip_salle_de_jeu').mouseout(function () {
-        tinyTip_mouseover = false;
-      }).mouseover(function () {
-        tinyTip_mouseover = true;
-      });
       $('#pass').focus(function () {
         clearInterval(refresh_interval);
       });
@@ -159,13 +163,20 @@ if ($.fn.tinyTips) {
       });
     }, function () {
       hovering = false;
-      setTimeout(function () {
-        if ((tinyTip_mouseover === false) && (hovering === false)) {
-          self.attr('title', $('.tinyTip_salle_de_jeu .content').html());
-          $('div.tinyTip_salle_de_jeu').remove();
-          window.oldTipped = null;
+      var self = this;
+      var destroy = function () {
+        if (window.oldTipped === self) {
+          if ((tinyTip_mouseover === false) && (hovering === false)) {
+            console.log("mouseover", tinyTip_mouseover);
+            $(self).attr('title', $('.tinyTip_salle_de_jeu .content').html());
+            $('div.tinyTip_salle_de_jeu').remove();
+            window.oldTipped = null;
+          } else {
+            setTimeout(destroy, 50);
+          }
         }
-      }, 20);
+      };
+      setTimeout(destroy, 50);
     });
   };
 
@@ -221,4 +232,3 @@ if (window.IWannaPlay) {
     window.location.reload();
   }
 }
-
