@@ -4,9 +4,12 @@
 // @description lgel
 // @include     *loups-garous-en-ligne.com/room
 // @include     *loups-garous-en-ligne.com/jeu/index.php*
-// @version     1.0.3
+// @version     1.0.4
 // @grant       none
 // ==/UserScript==
+window.oldTipped = null;
+window.players = {};
+
 console.log('In user script');
 if ($.fn.tinyTips) {
   console.log('In if');
@@ -41,49 +44,65 @@ if ($.fn.tinyTips) {
     });
   };
   console.log('Before tips');
-  $.fn.tinyTips = function () {
+  $.fn.tinyTips = function (isList) {
     'use strict';
     var tipFrame = '<div class="tinyTip_salle_de_jeu"><div class="content"></div><div class="bottom">&nbsp;</div></div>',
         animSpeed = 300,
         tinyTip = '';
     $(this).hover(function () {
+      var self = $(this);
       var tipCont, _tipCont, form, type, players, matches, to_add, list, i, len, player, link_player, line, getLine, x_offset, y_offset, pos, npos;
       hovering = true;
-      if (last_id_hovered !== +$(this).attr('id')) {
-        if (last_id_hovered !== 0) {
-          $('#' + last_id_hovered).attr('title', $('.tinyTip_salle_de_jeu .content').html());
-          $('div.tinyTip_salle_de_jeu').remove();
-        }
-        $('body').append(tipFrame);
-        tinyTip = $('div.tinyTip_salle_de_jeu');
-        tinyTip.hide();
-        tinyTip.css('width', 'auto');
-        tinyTip.css('background', 'white');
-        tinyTip.css('border', '1px solid #777');
-        tinyTip.css('boder-radius', '2px');
-        tinyTip.find('*').css('background', 'white');
-        tipCont = $(this).attr('title');
-        matches = tipCont.match(/player_requested/g);
-        form = tipCont.replace(/.*<form/, '<form');
-        _tipCont = tipCont.replace(/<[^>]*>/g, '').replace(/\[[^\]]*\]/g, '').replace(/\([^\)]*\)/g, '');
+      if (window.oldTipped) {
+        window.oldTipped.attr("title", $('.tinyTip_salle_de_jeu .content').html());
+        $('div.tinyTip_salle_de_jeu').remove();
+      }
+      $('body').append(tipFrame);
+      console.log("isList", isList);
+      tinyTip = $('div.tinyTip_salle_de_jeu');
+      tinyTip.hide();
+      tinyTip.css('width', 'auto');
+      tinyTip.css('background', 'white');
+      tinyTip.css('border', '1px solid #777');
+      tinyTip.css('boder-radius', '2px');
+      tinyTip.find('*').css('background', 'white');
+      tipCont = self.attr('title');
+      _tipCont = tipCont.replace(/<[^>]*>/g, '').replace(/\[[^\]]*\]/g, '').replace(/\([^\)]*\)/g, '');
+      matches = tipCont.match(/player_requested/g);
+      if (isList) {
+        form = (tipCont.match(/<form/) ? tipCont.replace(/.*<form/, '<form') : '');
         type = _tipCont.replace(/^Partie (.*)Joueurs.*$/, '$1');
-        players = _tipCont.replace(/.*:/, '').replace(/,/g, '').split(' ').filter(function (e) {
-          return e !== '';
-        });
-        if (!matches || matches.length !== players.length) {
-          to_add = 'Partie <strong style="color: #' + colors[type] + '">' + type + '</strong>';
+      }
+      players = _tipCont.replace(/.*:/, '').split(', ').map(function (e) {
+        return $.trim(e);
+      }).filter(function (e) {
+        return e !== '';
+      });
+      to_add = '';
+      if (!matches || matches.length !== players.length) {
+        if (isList) {
+          to_add += 'Partie <strong style="color: #' + colors[type] + '">' + type + '</strong>';
           to_add += '<hr/>';
-          to_add += 'Joueurs :</em>';
-          to_add += '<ul style="padding: 0 5px 0 20px; margin: 7px 0;"></ul>';
+        }
+        to_add += 'Joueurs :</em>';
+        to_add += '<ul style="padding: 0 5px 0 20px; margin: 7px 0;"></ul>';
+        if (isList && form) {
           to_add += '<hr/>';
           to_add += form;
-          tinyTip.find('.content').html(to_add);
-          list = tinyTip.find('.content ul');
-          getLine = function (player, link_player, line) {
+        }
+        tinyTip.find('.content').html(to_add);
+        list = tinyTip.find('.content ul');
+        getLine = function (player, link_player, line) {
+          if (window.players[player]) {
+            line.css('list-style-image', 'url("stuff/' + window.players[player].sex + '.png")');
+            line.html(window.players[player].html);
+            line.addClass('player_requested');
+          }
+          else {
             getPlayerInfos(player, function (data) {
               var res = '';
               if (data.error) {
-                res += player + '[<strong style="color: red">' + data.error + '</strong>]';
+                res += player + ' [<strong style="color: red">' + data.error + '</strong>]';
               } else {
                 line.css('list-style-image', 'url("stuff/' + (data.sex ? 'boy' : 'girl') + '.png")');
                 if (data.premium) {
@@ -95,57 +114,96 @@ if ($.fn.tinyTips) {
                 res += link_player;
                 res += ' <span style="color: #555;">(' + data.games + ' parties - ' + data.points + ' points)</span>';
               }
-              res += ' ';
+              res += '<span style="display: none;">,</span> ';
+
+              window.players[player] = {};
+              window.players[player].sex = (data.sex ? 'boy' : 'girl');
+              window.players[player].html = res;
               line.html(res);
               line.addClass('player_requested');
             });
-          };
-          for (i = 0, len = players.length; i < len; ++i) {
-            player = players[i];
-            link_player = '<strong style="color: #003366; cursor: pointer;"><a onClick="javascript:Infos(\'' + player + '\'); return false;">' + player + '</a></strong> ';
-            line = $('<li style="height: 16px;">' + link_player + '</li>');
-            list.append(line);
-            getLine(player, link_player, line);
           }
-        } else {
-          tinyTip.find('.content').html(tipCont);
+        };
+        for (i = 0, len = players.length; i < len; ++i) {
+          player = players[i];
+          link_player = '<strong style="color: #003366; cursor: pointer;"><a onClick="javascript:Infos(\'' + player + '\'); return false;">' + player + '</a></strong><span style="display: none;">,</span> ';
+          line = $('<li style="height: 16px;">' + link_player + '</li>');
+          list.append(line);
+          getLine(player, link_player, line);
         }
-        last_id_hovered = $(this).attr('id');
-        $(this).attr('title', '');
-        y_offset = tinyTip.height() + 17;
-        x_offset = -20;
-        pos = $(this).offset();
-        npos = pos;
-        npos.top = pos.top - y_offset;
-        npos.left = pos.left - x_offset;
-        tinyTip.css('position', 'absolute').css('z-index', '1000');
-        tinyTip.css(npos).fadeIn(animSpeed);
-        // Tests
-        $('div.tinyTip_salle_de_jeu').unbind('mouseout');
-        $('div.tinyTip_salle_de_jeu').mouseout(function () {
-          tinyTip_mouseover = false;
-        }).mouseover(function () {
-          tinyTip_mouseover = true;
-        });
-        $('#pass').focus(function () {
-          clearInterval(refresh_interval);
-        });
-        $('#pass').blur(function () {
-          refresh_interval = setInterval(actualiseRoom2, 4000);
-        });
+      } else {
+        tinyTip.find('.content').html(tipCont);
       }
+      self.attr('title', '');
+      y_offset = tinyTip.height() + 17;
+      x_offset = -20;
+      pos = $(this).offset();
+      npos = pos;
+      npos.top = pos.top - y_offset;
+      npos.left = pos.left - x_offset;
+      window.oldTipped = self;
+      tinyTip.css('position', 'absolute').css('z-index', '1000');
+      tinyTip.css(npos).fadeIn(animSpeed);
+      // Tests
+      $('div.tinyTip_salle_de_jeu').unbind('mouseout');
+      $('div.tinyTip_salle_de_jeu').mouseout(function () {
+        tinyTip_mouseover = false;
+      }).mouseover(function () {
+        tinyTip_mouseover = true;
+      });
+      $('#pass').focus(function () {
+        clearInterval(refresh_interval);
+      });
+      $('#pass').blur(function () {
+        refresh_interval = setInterval(actualiseRoom2, 4000);
+      });
     }, function () {
       hovering = false;
       setTimeout(function () {
         if ((tinyTip_mouseover === false) && (hovering === false)) {
-          $('#' + last_id_hovered).attr('title', $('.tinyTip_salle_de_jeu .content').html());
+          self.attr('title', $('.tinyTip_salle_de_jeu .content').html());
           $('div.tinyTip_salle_de_jeu').remove();
-          last_id_hovered = 0;
+          window.oldTipped = null;
         }
       }, 20);
     });
   };
+
+  window.roomEnCours = function() {};
+  window.newRoomEnCours = function () {
+    if(focusStatus === 0) {
+      return false;
+    }
+
+    $.post("jeu/externe/enCours.php",{
+      action:"actRoom",
+      type_parties: window.type_de_partie
+    }, function(donnee) {
+      $('#enCours *').unbind();
+      $('#enCours').html(donnee);
+      $('#enCours .tableTdGreen, #enCours .tableTdOrange').tinyTips(false);
+    },"text");
+
+    return false;
+  };
+
+  window.updateRunningTime = function () {
+    $('#enCours .tableTdGreen, #enCours .tableTdOrange').each(function() {
+      var time = $(this).find('td')[2];
+      var splitted = time.innerHTML.split(':');
+      var total = +splitted[0] * 60 + (+splitted[1]) + 1;
+      splitted[1] = total % 60;
+      splitted[0] = ("00" + ((total - splitted[1]) / 60)).slice(-2);
+      splitted[1] = ("00" + splitted[1]).slice(-2);
+      time.innerHTML = splitted.join(":");
+    });
+  };
+
+  window.newRoomEnCours();
+  setInterval(window.newRoomEnCours, 30000);
+  setInterval(window.updateRunningTime, 1000);
 }
+
 if (window.IWannaPlay) {
   window.IWannaPlay.toString = Object.toString;
   var OldIWannaPlay = window.IWannaPlay.toString();
