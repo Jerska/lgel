@@ -4,13 +4,25 @@
 // @description lgel
 // @include     *loups-garous-en-ligne.com/room
 // @include     *loups-garous-en-ligne.com/jeu/index.php*
-// @version     1.0.8
-// @require     store.js
+// @version     1.0.9
 // @require     players.js
-// @grant       none
+// @grant       GM_addStyle
 // ==/UserScript==
 
 window.oldTipped = null;
+
+GM_addStyle("" +
+  ".tinyTip_salle_de_jeu {" +
+  "  width: auto !important;" +
+  "  background: white !important;" +
+  "  border: 1px solid #777 !important;" +
+  "  border-radius: 2px !important;" +
+  "  position: absolute !important;" +
+  "  z-index: 1000 !important;" +
+  "}" +
+  ".tinyTip_salle_de_jeu * {" +
+  "  background: white !important;" +
+  "}");
 
 console.log('In user script');
 if ($.fn.tinyTips) {
@@ -45,11 +57,6 @@ if ($.fn.tinyTips) {
       }).mouseover(function () {
         tinyTip_mouseover = true;
       });
-      tinyTip.css('width', 'auto');
-      tinyTip.css('background', 'white');
-      tinyTip.css('border', '1px solid #777');
-      tinyTip.css('boder-radius', '2px');
-      tinyTip.find('*').css('background', 'white');
       tipCont = self.attr('title');
       _tipCont = tipCont.replace(/<[^>]*>/g, '').replace(/\[[^\]]*\]/g, '').replace(/\([^\)]*\)/g, '');
       matches = tipCont.match(/player_requested/g);
@@ -115,7 +122,6 @@ if ($.fn.tinyTips) {
       npos = pos;
       npos.top = pos.top - y_offset;
       npos.left = pos.left - x_offset;
-      tinyTip.css('position', 'absolute').css('z-index', '1000');
       tinyTip.css(npos).fadeIn(animSpeed);
       // Tests
       $('#pass').focus(function () {
