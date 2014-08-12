@@ -4,7 +4,7 @@
 // @description lgel
 // @include     *loups-garous-en-ligne.com/room
 // @include     *loups-garous-en-ligne.com/jeu/index.php*
-// @version     1.0.13
+// @version     1.0.14
 // @require     players.js
 // @require     style.js
 // @require     rooms.js
