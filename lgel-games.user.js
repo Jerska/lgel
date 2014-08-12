@@ -4,14 +4,16 @@
 // @description lgel
 // @include     *loups-garous-en-ligne.com/room
 // @include     *loups-garous-en-ligne.com/jeu/index.php*
-// @version     1.0.9
+// @version     1.0.10
 // @require     players.js
-// @grant       GM_addStyle
+// @grant       none
 // ==/UserScript==
 
 window.oldTipped = null;
 
-GM_addStyle("" +
+var css = document.createElement('style');
+css.type = "text/css";
+css.innerHTML = ("" +
   ".tinyTip_salle_de_jeu {" +
   "  width: auto !important;" +
   "  background: white !important;" +
@@ -23,6 +25,7 @@ GM_addStyle("" +
   ".tinyTip_salle_de_jeu * {" +
   "  background: white !important;" +
   "}");
+document.body.appendChild(css);
 
 console.log('In user script');
 if ($.fn.tinyTips) {
@@ -84,7 +87,7 @@ if ($.fn.tinyTips) {
         tinyTip.find('.content').html(to_add);
         list = tinyTip.find('.content ul');
         getLine = function (player, link_player, line) {
-          player.getInfos(player, function (data) {
+          Players.getInfo(player, function (data) {
             var res = '';
             if (data.error) {
               res += player + ' [<strong style="color: red">' + data.error + '</strong>]';
