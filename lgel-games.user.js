@@ -5,12 +5,12 @@
 // @include     *loups-garous-en-ligne.com/room
 // @include     *loups-garous-en-ligne.com/jeu/index.php*
 // @version     1.0.8
+// @require     store.js
 // @require     players.js
 // @grant       none
 // ==/UserScript==
 
 window.oldTipped = null;
-window.players = {};
 
 console.log('In user script');
 if ($.fn.tinyTips) {
@@ -77,36 +77,26 @@ if ($.fn.tinyTips) {
         tinyTip.find('.content').html(to_add);
         list = tinyTip.find('.content ul');
         getLine = function (player, link_player, line) {
-          if (window.players[player]) {
-            line.css('list-style-image', 'url("stuff/' + window.players[player].sex + '.png")');
-            line.html(window.players[player].html);
-            line.addClass('player_requested');
-          }
-          else {
-            getPlayerInfos(player, function (data) {
-              var res = '';
-              if (data.error) {
-                res += player + ' [<strong style="color: red">' + data.error + '</strong>]';
-              } else {
-                line.css('list-style-image', 'url("stuff/' + (data.sex ? 'boy' : 'girl') + '.png")');
-                if (data.premium) {
-                  res += '<img src="stuff/star.png" style="height: 12px;" /> ';
-                }
-                if (data.team) {
-                  res += '<span style="color: #476BB2;">[' + data.team + ']</span> ';
-                }
-                res += link_player;
-                res += ' <span style="color: #555;">(' + data.games + ' parties - ' + data.points + ' points)</span>';
+          player.getInfos(player, function (data) {
+            var res = '';
+            if (data.error) {
+              res += player + ' [<strong style="color: red">' + data.error + '</strong>]';
+            } else {
+              line.css('list-style-image', 'url("stuff/' + (data.sex ? 'boy' : 'girl') + '.png")');
+              if (data.premium) {
+                res += '<img src="stuff/star.png" style="height: 12px;" /> ';
               }
-              res += '<span style="display: none;">,</span> ';
+              if (data.team) {
+                res += '<span style="color: #476BB2;">[' + data.team + ']</span> ';
+              }
+              res += link_player;
+              res += ' <span style="color: #555;">(' + data.games + ' parties - ' + data.points + ' points)</span>';
+            }
+            res += '<span style="display: none;">,</span> ';
 
-              window.players[player] = {};
-              window.players[player].sex = (data.sex ? 'boy' : 'girl');
-              window.players[player].html = res;
-              line.html(res);
-              line.addClass('player_requested');
-            });
-          }
+            line.html(res);
+            line.addClass('player_requested');
+          });
         };
         for (i = 0, len = players.length; i < len; ++i) {
           player = players[i];

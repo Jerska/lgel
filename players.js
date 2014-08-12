@@ -1,6 +1,8 @@
-var PLAYER_UPDATE_TIMING = 10; // In seconds
+var player = {
+  update_each: 30 // In minutes
+};
 
-var pullPlayerInfos = function (name, callback) {
+player.pullProfile = function (name, callback) {
   'use strict';
 
   var res = {name: name, error: null},
@@ -19,11 +21,11 @@ var pullPlayerInfos = function (name, callback) {
       res.sex = player.premium.match('joueuse') === null;
     }
 
-  callback(res);
+    callback(res);
   });
 };
 
-var getPlayerInfos = function (name, callback) {
+player.getInfos = function (name, callback) {
   'use strict';
 
   var stored;
@@ -33,13 +35,13 @@ var getPlayerInfos = function (name, callback) {
     if (stored &&
         (stored = JSON.parse(stored)) &&
         stored.update_time &&
-        ((new Date()) - (new Date(stored.update_time))) < (PLAYER_UPDATE_TIMING * 1000)) {
+        ((new Date()) - (new Date(stored.update_time))) < (player.update_each * 1000 * 60)) {
 
         console.log("[getPlayerInfos] Used stored version");
         callback(stored);
     }
     else {
-      pullPlayerInfos(name, function (data) {
+      player.pullProfile(name, function (data) {
         data.update_time = new Date();
         sessionStorage.setItem('player_' + name, JSON.stringify(data));
         console.log("[getPlayerInfos] Updated stored version");
@@ -48,7 +50,6 @@ var getPlayerInfos = function (name, callback) {
     }
   }
   else {
-    console.log("[getPlayerInfos] No sessionStorage");
-    pullPlayerInfos(name, callback);
+    player.pullProfile(name, callback);
   }
 };
