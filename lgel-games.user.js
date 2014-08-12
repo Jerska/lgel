@@ -4,7 +4,7 @@
 // @description lgel
 // @include     *loups-garous-en-ligne.com/room
 // @include     *loups-garous-en-ligne.com/jeu/index.php*
-// @version     1.0.10
+// @version     1.0.11
 // @require     players.js
 // @grant       none
 // ==/UserScript==
@@ -22,8 +22,27 @@ css.innerHTML = ("" +
   "  position: absolute !important;" +
   "  z-index: 1000 !important;" +
   "}" +
-  ".tinyTip_salle_de_jeu * {" +
+  ".tinyTip_salle_de_jeu > * {" +
   "  background: white !important;" +
+  "}" +
+  ".tinyTip_salle_de_jeu form {" +
+  "    display: block !important;" +
+  "    width: 95% !important;" +
+  "    margin: 0 2.5%; !important" +
+  "}" +
+  ".tinyTip_salle_de_jeu input:not([type=hidden]) {" + 
+  "  width: 50% !important;" +
+  "}" +
+  "#enCours tr:not(:first-child):not(:last-child) > td:first-child {" +
+  "  text-align: left !important;" +
+  "  font-weight: bold !important;" +
+  "  font-size: 11px !important;" +
+  "} " +
+  "#enCours tr:not(:first-child) > td:not(:first-child) {" +
+  "  text-align: center !important;" +
+  "} " +
+  "#enCours tr > td:nth-child(4) {" +
+  "  display: none !important;" +
   "}");
 document.body.appendChild(css);
 
@@ -35,7 +54,7 @@ if ($.fn.tinyTips) {
     'Normale': '0F0',
     'Carnage': '000'
   };
-  $.fn.tinyTips = function (isList) {
+  $.fn.tinyTips = function (isList, toAdd) {
     'use strict';
     var tipFrame = '<div class="tinyTip_salle_de_jeu"><div class="content"></div><div class="bottom">&nbsp;</div></div>',
         animSpeed = 300,
@@ -83,6 +102,9 @@ if ($.fn.tinyTips) {
         if (isList && form) {
           to_add += '<hr/>';
           to_add += form;
+        }
+        if (toAdd) {
+          to_add += toAdd;
         }
         tinyTip.find('.content').html(to_add);
         list = tinyTip.find('.content ul');
@@ -163,7 +185,9 @@ if ($.fn.tinyTips) {
     }, function(donnee) {
       $('#enCours *').unbind();
       $('#enCours').html(donnee);
-      $('#enCours .tableTdGreen, #enCours .tableTdOrange').tinyTips(false);
+      $('#enCours .tableTdGreen, #enCours .tableTdOrange').each(function () {
+        $(this).tinyTips(false, '<hr/>' + $(this).find('td:nth-child(4)').html().replace(/<a[^>]*>Observer<\/a>/, '<input type="submit" value="Observer" />'));
+      });
     },"text");
 
     return false;
