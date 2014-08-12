@@ -47,6 +47,8 @@ var getPlayerInfos = function (name, callback) {
       });
     }
   }
-  console.log("[getPlayerInfos] No sessionStorage");
-  pullPlayerInfos(name, callback);
+  else {
+    console.log("[getPlayerInfos] No sessionStorage");
+    pullPlayerInfos(name, callback);
+  }
 };
