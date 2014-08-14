@@ -22,10 +22,9 @@ var Players = {
         res.games = player.parties;
         res.points = player.points;
         res.premium = (player.premium && player.premium.match('premium') !== null);
-        // This base64 code is only a 1px per 1px transparent image. It allows to avoir the broken link image
-        res.premium_img = res.premium ? '/stuff/star.png' : 'data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+        res.premium_text = (res.premium ? '' : 'no-') + 'premium';
         res.sex = (player.premium && player.premium.match('joueuse') === null);
-        res.sex_img = '/stuff/' + (res.sex ? 'boy.png' : 'girl.png');
+        res.sex_text = (res.sex ? 'boy' : 'girl');
       }
 
       callback(res);
@@ -42,7 +41,7 @@ var Players = {
           stored.update_time &&
           ((new Date()) - (new Date(stored.update_time))) < (Players.update_each * 1000 * 60)) {
 
-          console.log("[Players.getInfo] Used stored version");
+          console.log("[Players.getInfo] Used stored version", name);
           callback(stored);
       }
       else {
@@ -52,13 +51,13 @@ var Players = {
             Players.store.clear();
           }
           Players.store.setItem('player_' + name, JSON.stringify(data));
-          console.log("[Players.getInfo] Updated stored version");
+          console.log("[Players.getInfo] Updated stored version", name);
           callback(data);
         });
       }
     }
     else {
-      console.log("[Players.getInfo] No storage service");
+      console.log("[Players.getInfo] No storage service", name);
       Players.pullProfile(name, callback);
     }
   };

@@ -11,7 +11,7 @@
       window.adWatchedAfterAdblockCheck(window.query);
     };
     if ($('#immViewer').css('display') == 'block') {
-      window.location.reload();
+      window.location = window.location.href;
     }
   }
 }).call(this);
