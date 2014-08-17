@@ -52,7 +52,7 @@
     "#chat > .tchatIcon {" +
     "  display: none;" +
     "}" +
-    "span.canal_joueurs {" +
+    "span.canal_joueurs, span.canal_meneur {" +
     "  display: inline-block !important;" +
     "  width: 100%;" +
     "}" +

@@ -7,30 +7,54 @@
       return oldUpdateGlobal.call(this);
     };
 
+    var votes_params = {};
+    var votes = [];
+    var players = [];
     window.currentlyShowing = null;
     window.showOnlyMessages = function (name) {
-      if (window.currentlyShowing !== name) {
+      if (name)
         window.currentlyShowing = name;
-        $('span.canal_joueurs').each(function () {
-          if (this.innerHTML.toLowerCase().indexOf(name) === -1) {
+      if (window.currentlyShowing) {
+        $('span.canal_joueurs, span.canal_meneur').each(function () {
+          if (this.innerHTML.toLowerCase().indexOf(window.currentlyShowing) === -1)
             $(this).addClass('darkened');
-          }
-          else {
+          else
             $(this).removeClass('darkened');
-          }
         });
       }
     };
 
     $('body').on('click', function () {
       if (window.currentlyShowing) {
-        $('span.canal_joueurs').removeClass('darkened');
-        window.currentlyShowing = false;
+        $('span.canal_joueurs, span.canal_meneur').removeClass('darkened');
+        window.currentlyShowing = null;
       }
     });
 
+    var updateVotes = function() {
+      votes_params.day = votes_params.day || 0;
+      votes[votes_params.day] = votes[votes_params.day] || {};
+      $('span.canal_meneur:not(.parsed)').each(function () {
+        $(this).addClass('parsed');
+        var text = this.innerHTML;
+        if (this.innerHTML.indexOf('Le village se réveille') !== -1) {
+          ++votes_params.day;
+          votes[votes_params.day] = votes[votes_params.day] || {};
+        }
+        if (text.indexOf(" vote ") !== -1) {
+          var votants = text.match(/ <b>(\S*)<\/b> vote <b>(\S*)<\/b>$/);
+          if (votants.length === 3) {
+            votes[votes_params.day][votants[1]] = votes[votes_params.day][votants[1]] || [];
+            votes[votes_params.day][votants[1]].push(votants[2]);
+          }
+        }
+      });
+    };
+
     var oldGetChat = window.getChat;
     window.getChat = function () {
+      window.showOnlyMessages(null);
+      updateVotes();
       var do_playerify = !$('#CONTENTchat').html().match('<span style="color:blue">Cette partie possède l\'option <b>Anonyme</b>');
       $('span.to-tip').removeClass('to-tip').tinyTips(false, {
         transformTitle: function (title) {
@@ -61,7 +85,22 @@
           else {
             title += '<strong>' + data.nom + '</strong>';
           }
-          title += '';
+          if (votes.length > 1) {
+            title += '<hr/>' +
+              '<em>Votes</em>' +
+              '<ul>';
+            for (var day = 1, days_length = votes.length; day < days_length; ++day) {
+              title += '<li><strong>Jour ' + (day) + '</strong></li>';
+              title += '<ul>';
+              var _votes = votes[day][data.nom] || [];
+              for (var vote = 0, votes_length = _votes.length; vote < votes_length; ++vote) {
+                if (_votes[vote] !== 'personne')
+                  title += '<li>' + _votes[vote] + '</li>';
+              }
+              title += '</ul>';
+            }
+            title += '</ul>';
+          }
           title += '<hr/>' +
             '<em>Actions :</em>' +
             '<ul>' +
@@ -112,7 +151,6 @@
       },
       doAfter: function (tip) {
         tip.addClass('smileyBox');
-        tip.find('.bottom').remove();
         tip.find('.smiley').on('click', function (e) {
           e.preventDefault();
           var pos = msg_input[0].selectionStart;
