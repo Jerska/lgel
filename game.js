@@ -43,7 +43,7 @@
         }
         if (text.indexOf(" vote ") !== -1) {
           var votants = text.match(/ <b>(\S*)<\/b> vote <b>(\S*)<\/b>$/);
-          if (votants.length === 3) {
+          if (votants && votants.length === 3) {
             votes[votes_params.day][votants[1]] = votes[votes_params.day][votants[1]] || [];
             votes[votes_params.day][votants[1]].push(votants[2]);
           }
